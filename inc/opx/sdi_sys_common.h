@@ -58,8 +58,7 @@
  * @def Attirbute used to get entity config file path
  */
 #define SDI_ENTITY_CONFIG_FILE "/etc/opx/sdi/entity.xml"
-#define NGOS_LIB_DIR           "/usr/lib/"
-#define SDI_DRIVER_LIB         "libopx-sdi_drivers.so"
+#define SDI_DRIVER_LIB         "libopx_sdi_device_drivers.so"
 
 /**
  * @brief Check whether the SDI is initialized.

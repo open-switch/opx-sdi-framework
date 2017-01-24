@@ -182,7 +182,6 @@ t_std_error sdi_register_driver(std_config_node_t node, sdi_bus_hdl_t bus_hdl, s
  */
 void sdi_register_drivers(const char * driver_cfg_file)
 {
-    char lib_path[SDI_MAX_PATH_LEN] = {0};
     std_config_hdl_t cfg_hdl = NULL;
     std_config_node_t root =  NULL;
 
@@ -194,8 +193,7 @@ void sdi_register_drivers(const char * driver_cfg_file)
 
     std_dll_init(&device_list);
 
-    snprintf(lib_path, sizeof(lib_path),"%s%s",NGOS_LIB_DIR,SDI_DRIVER_LIB);
-    dl_hdl = dlopen(lib_path, RTLD_LAZY);
+    dl_hdl = dlopen(SDI_DRIVER_LIB, RTLD_LAZY);
     STD_ASSERT(dl_hdl != NULL);
 
     /**
