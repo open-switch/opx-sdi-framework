@@ -283,6 +283,26 @@ t_std_error sdi_smbus_write_word(sdi_i2c_bus_hdl_t bus_handle,
                                  uint16_t buffer, uint_t flags);
 
 /**
- * @}
+ * @brief sdi_smbus_write_i2c_block_data
+ * Execute SMBUS Write Word on Slave.
+ * Format:
+ * <b>
+ * start (1) : slave address (7) : wr (1) : ACK (1) : cmd (8) : ACK(1) :
+ * databytelow (8) : ACK(1) : databytehigh (8) : ACK (1) : stop (1)
+ * </b>
+ * @param[in] bus_handle : i2c bus handle
+ * @param[in] i2c_addr : i2c slave address
+ * @param[in] cmd : address offset
+ * @param[in] length : number of bytes
+ * @param[in] values : bytes to be written to slave via i2c
+ * @param[in] flags : options if any to be sent @sa sdi_i2c_flags for
+ * supported flags
+ * @return returns
+ * - STD_ERR_OK on success,
+ * - SDI_ERRNO on failure.
  */
+t_std_error sdi_smbus_write_i2c_block_data(sdi_i2c_bus_hdl_t bus_handle,
+                                sdi_i2c_addr_t i2c_addr, uint16_t cmd,
+                                uint8_t length, const uint8_t *values, uint_t flags);
+
 #endif /* __SDI_I2C_BUS_API_H__ */

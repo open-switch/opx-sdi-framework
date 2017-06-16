@@ -66,6 +66,12 @@ typedef struct {
 
     /** digital_display_led_set : callback function to set specified value on LED */
     t_std_error (*digital_display_led_set)(void *resource_hdl, const char *display_string);
+
+    /** digital_display_led_get : callback function to get the value on digital LED */
+    t_std_error (*digital_display_led_get)(void *resource_hdl, char *display_string, size_t buf_size);
+
+    /** digital_display_led_get_state : callback function to get on/off value of LED */
+    t_std_error (*digital_display_led_get_state)(void *resource_hdl, bool *state);
 } sdi_digital_display_led_t;
 
 #endif /* __SDI_LED_INTERNAL_H_ */

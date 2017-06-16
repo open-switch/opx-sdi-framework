@@ -79,10 +79,6 @@ typedef struct {
     t_std_error (*speed_get)(sdi_resource_hdl_t resource_hdl,
                              sdi_media_speed_t *speed);
 
-    /* To check whether the specified media resource is qualified by DELL or not */
-    t_std_error (*is_dell_qualified)(sdi_resource_hdl_t resource_hdl,
-                                     bool *status);
-
     /* Get the requested parameter value from eeprom */
     t_std_error (*parameter_get)(sdi_resource_hdl_t resource_hdl,
                                  sdi_media_param_type_t param, uint_t *value);
@@ -95,10 +91,6 @@ typedef struct {
     /* Get the transceiver compliance code information from eeprom */
     t_std_error (*transceiver_code_get)(sdi_resource_hdl_t resource_hdl,
                                         sdi_media_transceiver_descr_t *transceiver_info);
-
-    /* Get the dell product information */
-    t_std_error (*dell_product_info_get)(sdi_resource_hdl_t resource_hdl,
-                                         sdi_media_dell_product_info_t *info);
 
     /* Get the alarm and warning threshold values */
     t_std_error (*threshold_get)(sdi_resource_hdl_t resource_hdl,
@@ -162,6 +154,17 @@ typedef struct {
     /* For setting wavelength for tunable media */
     t_std_error (*wavelength_set) (sdi_resource_hdl_t resource_hdl, float value);
 
+    /* For getting media phy link status */
+    t_std_error (*media_phy_link_status_get)(sdi_resource_hdl_t resource_hdl,
+            uint_t channel,sdi_media_type_t type, bool *status);
+
+    /* For setting media phy power down enable/disable */
+    t_std_error (*media_phy_power_down_enable)(sdi_resource_hdl_t resource_hdl,
+            uint_t channel, sdi_media_type_t type, bool enable);
+
+    /* For enable/disable Fiber/Serdes Transmitter and Receiver*/
+    t_std_error (*media_phy_serdes_control)(sdi_resource_hdl_t resource_hdl,
+            uint_t channel, sdi_media_type_t type, bool enable);
 } media_ctrl_t;
 
 #endif

@@ -23,6 +23,7 @@
  * Implements SDI I2C BUS APIs to execute I2C transactions
  *****************************************************************************/
 
+#include <linux/i2c.h>
 #include "std_assert.h"
 #include "sdi_i2c_bus_api.h"
 
@@ -390,6 +391,37 @@ t_std_error sdi_smbus_write_word(sdi_i2c_bus_hdl_t bus_handle,
     error = sdi_smbus_execute(bus_handle, i2c_addr,
                               SDI_SMBUS_WRITE, SDI_SMBUS_WORD_DATA,
                               cmd, &buffer, SDI_SMBUS_SIZE_NON_BLOCK, flags);
+
+    sdi_i2c_release_bus(bus_handle);
+
+    return error;
+}
+
+t_std_error sdi_smbus_write_i2c_block_data(sdi_i2c_bus_hdl_t bus_handle,
+                                           sdi_i2c_addr_t i2c_addr, uint16_t cmd,
+                                           uint8_t length, const uint8_t *values, uint_t flags)
+{
+    union i2c_smbus_data data;
+    int i;
+    t_std_error error = STD_ERR_OK;
+    STD_ASSERT(bus_handle != NULL);
+
+    STD_ASSERT(bus_handle->bus.bus_type == SDI_I2C_BUS);
+
+    error = sdi_i2c_acquire_bus(bus_handle);
+    if (error != STD_ERR_OK) {
+        return error;
+    }
+
+    if (length > (I2C_SMBUS_BLOCK_MAX / 2))
+        length = I2C_SMBUS_BLOCK_MAX / 2;
+    for (i = 0; i < length; i++)
+        data.block[i + 2] = values[i];
+    data.block[0] = length + 1;      // 1 extra byte for cmd
+    data.block[1] = ((cmd >> 8) & 0xff);
+    error = sdi_smbus_execute(bus_handle, i2c_addr,
+                              SDI_SMBUS_WRITE, SDI_SMBUS_BLOCK_DATA,
+                              (cmd & 0xff), &data, SDI_SMBUS_SIZE_NON_BLOCK, flags);
 
     sdi_i2c_release_bus(bus_handle);
 

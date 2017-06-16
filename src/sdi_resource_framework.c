@@ -159,9 +159,11 @@ t_std_error sdi_resource_init(sdi_resource_hdl_t hdl, void *data)
            if ((((nvram_t *) resource_hdl->callback_fns)->init) != NULL) {
                rc = (*((nvram_t *) resource_hdl->callback_fns)->init)(resource_hdl->callback_hdl);
            }
-           break;           
+           break;
        case SDI_RESOURCE_LED:
        case SDI_RESOURCE_MEDIA:
+       case SDI_RESOURCE_COMM_DEV:
+       case SDI_RESOURCE_HOST_SYSTEM:
        case SDI_RESOURCE_DIGIT_DISPLAY_LED:
        case SDI_RESOURCE_UPGRADABLE_PLD:
            rc = STD_ERR_OK;
