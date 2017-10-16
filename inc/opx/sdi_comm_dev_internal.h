@@ -52,6 +52,11 @@ typedef struct {
     /* For reading static platform info with I2C bus */
     t_std_error  (*read_platform_info)(sdi_resource_hdl_t resource_hdl, sdi_platform_info_t *platform_info);
 
+    /* For flushing write message buffer with I2C bus */
+    t_std_error  (*flush_msg_buffer)(sdi_resource_hdl_t resource_hdl);
+
+    /* For reading write buffer readiness info with I2C bus */
+    t_std_error  (*get_buffer_ready)(sdi_resource_hdl_t resource_hdl, bool *ready);
 } comm_dev_ctrl_t;
 
 #endif
